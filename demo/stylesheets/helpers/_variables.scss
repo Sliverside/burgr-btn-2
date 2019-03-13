@@ -1,0 +1,36 @@
+$space: 15px;
+  $space--small: 10px;
+  $space--big: 25px;
+
+$border-rad: 5px;
+  $border-rad--small: 2px;
+  $border-rad--big: 10px;
+
+$transition-duration: 100ms;
+  $transition-duration--small: 200ms;
+  $transition-duration--big: 350ms;
+
+$burgr__scale: 1;
+
+$burger--fat: (
+  'width': 90px*$burgr__scale,
+  'part__stroke': 18px*$burgr__scale,
+  'part__gap': 9px*$burgr__scale,
+);
+
+$burger--thin: (
+  'width': 90px*$burgr__scale,
+  'part__stroke': 6px*$burgr__scale,
+  'part__gap': 18px*$burgr__scale,
+);
+
+$burger--thin--diagonale: (
+  'width': 90px*$burgr__scale,
+  'part__stroke': 6px*$burgr__scale,
+  'part__gap': 27px*$burgr__scale,
+);
+
+$primary: hsl(268, 68%, 46%);
+$primary--darken: hsl(265, 78%, 22%);
+$primary--lighten: hsl(291, 68%, 46%);
+$red: hsl(345, 100%, 35%);

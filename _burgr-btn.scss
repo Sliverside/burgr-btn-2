@@ -1,0 +1,237 @@
+// | ---------------------------------------------------------------------- | \\
+// | ----------------------##### | BURGR-BTN | #####----------------------- | \\
+// | ---------------------------------------------------------------------- | \\
+// | #IMPORTS ------------------------------------------------------------- | \\
+// | #BASE-STYLE ---------------------------------------------------------- | \\
+// | #GENERATE-BURGR ------------------------------------------------------ | \\
+// | ---------------------------------------------------------------------- | \\
+
+
+
+
+
+// | #IMPORTS //////////////////////////////////////////////////////////////////
+
+@import 'helpers/math';
+@import 'helpers/functions';
+
+
+
+
+
+// | #BASE-STYLE ///////////////////////////////////////////////////////////////
+
+.burgr {
+  position: relative;
+  line-height: 0;
+}
+
+  .burgr__wrapper,
+  .burgr__part {
+    pointer-events: none;
+  }
+
+  .burgr__wrapper {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .burgr__part {
+    position: absolute;
+
+    background-color: #555;
+  }
+
+
+
+
+
+// | #GENERATE-BURGR ///////////////////////////////////////////////////////////
+
+@mixin generate-burgr($properties, $state, $container__set__size: false, $overwrite: false) {
+
+  $id: unique-id();
+
+  $height: map-get($properties,'part__stroke')*3 + map-get($properties,'part__gap')*2;
+
+  $cross__width: map-get($properties, 'width')*sqrt(2) - map-get($properties,'part__stroke');
+  @if(map-get($properties, 'width') > $height) { $cross__width: $height*sqrt(2) - map-get($properties,'part__stroke'); }
+
+  $arrow__width: map-get($properties, 'width')*sqrt(2) / 2;
+  @if(map-get($properties, 'width') > $height) { $arrow__width: $height*sqrt(2) / 2; }
+
+  @if $container__set__size {
+    width: map-get($properties,'width');
+    height: $height;
+  }
+
+  .burgr__wrapper {
+    width: map-get($properties, 'width');
+    height: $height;
+  }
+
+  .burgr__part {
+    height: map-get($properties,'part__stroke');
+    width: map-get($properties, 'width');
+    top: $height/2;
+    left: 50%;
+    margin-left: -50%;
+  }
+
+   @if($overwrite) {
+    .burgr__part--top,
+    .burgr__part--mid {
+      left: 50%;
+      margin-left: -50%;
+    }
+    .burgr__part--top,
+    .burgr__part--mid,
+    .burgr__part--bot {
+      width: map-get($properties, 'width');
+      transform: none;
+    }
+    .burgr__part--bot {
+      opacity: 1;
+    }
+  }
+
+  %normal__part--top#{$id} {
+    margin-top: - map-get($properties,'part__stroke')/2 - map-get($properties,'part__stroke') - map-get($properties,'part__gap');
+  }
+  %normal__part--mid#{$id} {
+  margin-top: - map-get($properties,'part__stroke')/2;
+  }
+  %normal__part--bot#{$id} {
+    margin-top: - map-get($properties,'part__stroke')/2 + map-get($properties,'part__stroke') + map-get($properties,'part__gap');
+  }
+
+  %arrow__part__sizing#{$id} {
+    @extend %normal__part--mid#{$id};
+    width: $arrow__width;
+    @if map-get($properties, 'width') > $height { // center the cross if map-get($properties, 'width') > $height
+      margin-left: -$arrow__width/2;
+    }
+  }
+
+  %hide__part--bot#{$id} {
+    margin-top: - map-get($properties,'part__stroke')/2 + map-get($properties,'part__stroke')*2 + map-get($properties,'part__gap')*2;
+    opacity: 0;
+  }
+
+  %dot__part__width#{$id} { width: map-get($properties,'part__stroke') }
+
+  @if($state == 'clasic') {
+
+    .burgr__part {
+     left: 0;
+     margin-left: 0;
+    }
+
+    .burgr__part--top {
+      @extend %normal__part--top#{$id};
+      width: map-get($properties, 'width')*0.9;
+    }
+    .burgr__part--mid {
+      @extend %normal__part--mid#{$id};
+    }
+    .burgr__part--bot {
+      @extend %normal__part--bot#{$id};
+      width: map-get($properties, 'width')*0.8;
+    }
+  }
+
+  @if($state == 'normal') {
+    .burgr__part--top { @extend %normal__part--top#{$id}; }
+    .burgr__part--mid { @extend %normal__part--mid#{$id}; }
+    .burgr__part--bot { @extend %normal__part--bot#{$id}; }
+  }
+
+  @if($state == 'cross') {
+    .burgr__part--top,
+    .burgr__part--mid {
+      @extend %normal__part--mid#{$id};
+      width: $cross__width;
+      @if map-get($properties, 'width') > $height { // center the cross if width > height
+        margin-left: -$cross__width/2;
+      }
+    }
+    .burgr__part--top { transform: rotate(45deg); }
+    .burgr__part--mid { transform: rotate(-45deg); }
+    .burgr__part--bot { @extend %hide__part--bot#{$id}; }
+  }
+
+  @if($state == 'arrow-right') {
+    .burgr__part--top,
+    .burgr__part--mid { @extend %arrow__part__sizing#{$id}; }
+    .burgr__part--top {
+      transform: translateY(-$arrow__width/2/sqrt(2) + map-get($properties,'part__stroke')/2/sqrt(2)) rotate(-45deg);
+    }
+    .burgr__part--mid {
+      transform: translateY($arrow__width/2/sqrt(2) - map-get($properties,'part__stroke')/2/sqrt(2)) rotate(45deg);
+    }
+    .burgr__part--bot { @extend %hide__part--bot#{$id}; }
+  }
+
+  @if($state == 'arrow-left') {
+    .burgr__part--top,
+    .burgr__part--mid { @extend %arrow__part__sizing#{$id}; }
+    .burgr__part--top {
+      transform: translateY(-$arrow__width/2/sqrt(2) + map-get($properties,'part__stroke')/2/sqrt(2)) rotate(45deg);
+    }
+    .burgr__part--mid {
+      transform: translateY($arrow__width/2/sqrt(2) - map-get($properties,'part__stroke')/2/sqrt(2)) rotate(-45deg);
+    }
+    .burgr__part--bot { @extend %hide__part--bot#{$id}; }
+  }
+
+  @if($state == 'arrow-top') {
+    .burgr__part--top,
+    .burgr__part--mid { @extend %arrow__part__sizing#{$id}; }
+    .burgr__part--top {
+      transform: translateX($arrow__width/2/sqrt(2) - map-get($properties,'part__stroke')/2/sqrt(2)) rotate(45deg);
+    }
+    .burgr__part--mid {
+      transform: translateX(- $arrow__width/2/sqrt(2) + map-get($properties,'part__stroke')/2/sqrt(2)) rotate(-45deg);
+    }
+    .burgr__part--bot { @extend %hide__part--bot#{$id}; }
+  }
+
+  @if($state == 'arrow-bot') {
+    .burgr__part--top,
+    .burgr__part--mid { @extend %arrow__part__sizing#{$id}; }
+    .burgr__part--top {
+      transform: translateX($arrow__width/2/sqrt(2) - map-get($properties,'part__stroke')/2/sqrt(2)) rotate(-45deg);
+    }
+    .burgr__part--mid {
+      transform: translateX(- $arrow__width/2/sqrt(2) + map-get($properties,'part__stroke')/2/sqrt(2)) rotate(45deg);
+    }
+    .burgr__part--bot { @extend %hide__part--bot#{$id}; }
+  }
+
+  @if($state == 'dot-vertical') {
+    .burgr__part {
+      @extend %dot__part__width#{$id};
+      margin-left: - map-get($properties, 'part__stroke')/2;
+    }
+    .burgr__part--top { @extend %normal__part--top#{$id}; }
+    .burgr__part--mid { @extend %normal__part--mid#{$id}; }
+    .burgr__part--bot { @extend %normal__part--bot#{$id}; }
+  }
+
+  @if($state == 'dot-horizontal') {
+    .burgr__part {
+      @extend %dot__part__width#{$id};
+      @extend %normal__part--mid#{$id};
+    }
+    .burgr__part--top {
+      margin-left: - map-get($properties,'part__stroke')*1.5 - map-get($properties,'part__gap');
+    }
+    .burgr__part--mid {
+      margin-left: - map-get($properties,'part__stroke')*0.5;
+    }
+    .burgr__part--bot {
+      margin-left: map-get($properties,'part__stroke')*0.5 + map-get($properties,'part__gap');
+    }
+  }
+}

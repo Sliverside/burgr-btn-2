@@ -1,0 +1,115 @@
+// | ---------------------------------------------------------------------- | \\
+// | ------------------------##### | MASTER | #####------------------------ | \\
+// | ---------------------------------------------------------------------- | \\
+// | #IMPORTS ------------------------------------------------------------- | \\
+// | ---------------------------------------------------------------------- | \\
+
+
+
+
+
+// | #IMPORTS //////////////////////////////////////////////////////////////////
+
+@import 'helpers/init';
+@import 'helpers/variables';
+@import '../../helpers/math';
+@import '../../burgr-btn';
+
+
+
+
+.main-section {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  line-height: 0;
+
+  font-size: 60px;
+  background-color: #ccc;
+  box-shadow: 7px 7px #999;
+}
+
+.burgr {
+  vertical-align: middle;
+  display: inline-block;
+
+  // background-color: #999;
+  cursor: pointer;
+}
+
+  .burgr__wrapper {
+    transition: $transition-duration--big;
+    // background-color: #978aff;
+  }
+
+  .burgr:active .burgr__wrapper { transform: translateY(-50%) scale(0.9) }
+  .burgr__part {
+    transition: $transition-duration--big;
+    background-color: $primary;
+  }
+
+  .burgr:hover .burgr__part { background-color: mix($primary, $primary--darken) }
+  .burgr.toggled .burgr__part { background-color: $primary--lighten }
+  .burgr:active .burgr__part { background-color: $primary--darken }
+
+
+
+.burgr--default { @include generate-burgr($burger--fat, 'normal', true) }
+
+.burgr--default:hover { @include generate-burgr($burger--thin, 'clasic') }
+
+.burgr--default.toggled { @include generate-burgr($burger--fat, 'cross') }
+
+.burgr--default.toggled:hover { @include generate-burgr($burger--thin--diagonale, 'cross') }
+
+
+
+.burgr--cross { @include generate-burgr($burger--fat, 'cross', true) }
+
+.burgr--cross:hover { @include generate-burgr($burger--thin--diagonale, 'cross') }
+
+.burgr--cross.toggled { @include generate-burgr($burger--fat, 'arrow-top') }
+
+.burgr--cross.toggled:hover { @include generate-burgr($burger--thin--diagonale, 'arrow-top') }
+
+
+
+.burgr--arrow-right { @include generate-burgr($burger--fat, 'arrow-right', true) }
+
+.burgr--arrow-right:hover { @include generate-burgr($burger--thin--diagonale, 'arrow-right') }
+
+.burgr--arrow-right.toggled { @include generate-burgr($burger--fat, 'arrow-left') }
+
+.burgr--arrow-right.toggled:hover { @include generate-burgr($burger--thin--diagonale, 'arrow-left') }
+
+
+
+.burgr--arrow-bot { @include generate-burgr($burger--fat, 'arrow-bot', true) }
+
+.burgr--arrow-bot:hover { @include generate-burgr($burger--thin--diagonale, 'arrow-bot') }
+
+.burgr--arrow-bot.toggled { @include generate-burgr($burger--fat, 'arrow-top') }
+
+.burgr--arrow-bot.toggled:hover { @include generate-burgr($burger--thin--diagonale, 'arrow-top') }
+
+
+
+.burgr--dot-vertical { @include generate-burgr($burger--fat, 'dot-vertical', true) }
+
+.burgr--dot-vertical:hover { @include generate-burgr($burger--thin, 'dot-vertical') }
+
+.burgr--dot-vertical.toggled { @include generate-burgr($burger--fat, 'cross') }
+
+.burgr--dot-vertical.toggled:hover { @include generate-burgr($burger--thin--diagonale, 'cross') }
+
+
+
+.burgr--dot-horizontal { @include generate-burgr($burger--fat, 'dot-horizontal', true) }
+
+.burgr--dot-horizontal:hover { @include generate-burgr($burger--thin, 'dot-horizontal') }
+
+.burgr--dot-horizontal.toggled { @include generate-burgr($burger--fat, 'arrow-top') }
+
+.burgr--dot-horizontal.toggled:hover { @include generate-burgr($burger--thin--diagonale, 'arrow-top') }
